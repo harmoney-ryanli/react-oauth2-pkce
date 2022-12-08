@@ -41,6 +41,7 @@ export interface IAuthContext {
   token: string
   logOut: () => void
   login: () => void
+  handleTokenResponse: (response: TTokenResponse) => void
   error: string | null
   tokenData?: TTokenData
   idToken?: string

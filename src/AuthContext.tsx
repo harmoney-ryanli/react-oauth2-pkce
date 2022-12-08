@@ -25,6 +25,7 @@ export const AuthContext = createContext<IAuthContext>({
   token: '',
   login: () => null,
   logOut: () => null,
+  handleTokenResponse: (response: TTokenResponse) => null,
   error: null,
   loginInProgress: false,
 })
@@ -178,7 +179,7 @@ export const AuthProvider = ({ authConfig, children }: IAuthProvider) => {
   }, []) // eslint-disable-line
 
   return (
-    <AuthContext.Provider value={{ tokenData, token, idToken, login, logOut, error, loginInProgress }}>
+    <AuthContext.Provider value={{ tokenData, token, idToken, login, logOut, error, loginInProgress, handleTokenResponse }}>
       {children}
     </AuthContext.Provider>
   )
