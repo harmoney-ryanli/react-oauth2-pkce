@@ -6,6 +6,7 @@ import {
   TTokenRequest,
   TTokenRequestWithCodeAndVerifier,
   TTokenRequestForRefresh,
+  TLoginExtraParameters,
 } from './Types'
 import { postWithXForm } from './httpUtils'
 
@@ -13,7 +14,7 @@ const codeVerifierStorageKey = 'PKCE_code_verifier'
 // [ AzureAD,]
 export const EXPIRED_REFRESH_TOKEN_ERROR_CODES = ['AADSTS700084']
 
-export async function redirectToLogin(config: TInternalConfig) {
+export async function redirectToLogin(config: TInternalConfig, overrideConfig?: TLoginExtraParameters) {
   // Create and store a random string in localStorage, used as the 'code_verifier'
   const codeVerifier = generateRandomString(96)
   localStorage.setItem(codeVerifierStorageKey, codeVerifier)
@@ -29,6 +30,7 @@ export async function redirectToLogin(config: TInternalConfig) {
       code_challenge: codeChallenge,
       code_challenge_method: 'S256',
       ...config.extraAuthParameters,
+      ...overrideConfig,
     })
     // Call any preLogin function in authConfig
     if (config?.preLogin) config.preLogin()

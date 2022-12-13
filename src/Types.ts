@@ -32,6 +32,11 @@ export type TTokenResponse = {
   id_token?: string
 }
 
+export type TLoginExtraParameters = {
+  redirect_uri?: string
+  kc_idp_hint?: string
+}
+
 export interface IAuthProvider {
   authConfig: TAuthConfig
   children: ReactNode
@@ -40,7 +45,7 @@ export interface IAuthProvider {
 export interface IAuthContext {
   token: string
   logOut: () => void
-  login: () => void
+  login: (loginParameter?: TLoginExtraParameters) => void
   handleTokenResponse: (response: TTokenResponse) => void
   error: string | null
   tokenData?: TTokenData

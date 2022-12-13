@@ -14,6 +14,7 @@ import {
   TInternalConfig,
   TTokenData,
   TTokenResponse,
+  TLoginExtraParameters,
 } from './Types'
 import { validateAuthConfig } from './validateAuthConfig'
 import { epochAtSecondsFromNow, epochTimeIsPast } from './timeUtils'
@@ -23,7 +24,7 @@ const FALLBACK_EXPIRE_TIME = 600 // 10minutes
 
 export const AuthContext = createContext<IAuthContext>({
   token: '',
-  login: () => null,
+  login: (loginParameters?: TLoginExtraParameters) => null,
   logOut: () => null,
   handleTokenResponse: (response: TTokenResponse) => null,
   error: null,
@@ -85,9 +86,9 @@ export const AuthProvider = ({ authConfig, children }: IAuthProvider) => {
     if (config?.logoutEndpoint && refreshToken) redirectToLogout(config, refreshToken)
   }
 
-  function login() {
+  function login(loginParameters?: TLoginExtraParameters) {
     setLoginInProgress(true)
-    redirectToLogin(config)
+    redirectToLogin(config, loginParameters)
   }
 
   function handleTokenResponse(response: TTokenResponse) {
